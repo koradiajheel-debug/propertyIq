@@ -9,7 +9,7 @@ st.title('🏡 PropertyIQ – Home Energy Dashboard')
 # Sample placeholder data
 @st.cache_data
 def load_sample_data():
-    dates = pd.date_range(start='2023-01-01', periods=12, freq='M')
+    dates = pd.date_range(start='2023-01-01', periods=12, freq='MS')
     consumption = np.random.uniform(200, 500, size=12)
     df = pd.DataFrame({"Month": dates.strftime('%b %Y'), "kWh": consumption.round(1)})
     return df
