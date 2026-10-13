@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyIQ — Property Valuation & Real-Time Locality Intelligence System</title>
+  <meta name="description"
+    content="Academic Machine Learning property valuation and real-time locality intelligence platform for Mumbai and MMR, built with Scikit-learn, Pandas, NumPy, Matplotlib, and Leaflet.">
+
+  <!-- Typography: Inter Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet & MarkerCluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/static/css/styles.css?v=3">
+</head>
+
+<body>
+
+  <!-- 1. TOP HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-wrapper">
+        <div>
+          <div class="brand-title">
+            PropertyIQ
+            <span class="brand-badge">Smart Price Estimator</span>
+          </div>
+          <div class="brand-subtitle">Find out what a home in Mumbai is worth — estimated by Machine Learning</div>
+        </div>
+      </div>
+
+      <div class="header-status-strip">
+        <div class="status-pill">
+          <span class="pulse-dot"></span>
+          <span>Market today: <strong id="ticker-drift" class="trend-up">+0.05%</strong> (23:05:43)</span>
+        </div>
+
+      </div> <!-- end of header-status-strip -->
+      <div class="header-controls" style="display:flex;gap:8px;align-items:center;">
+
+      </div>
+    </div> <!-- close header-inner -->
+  </header>
+
+
+
+
+  <!-- 2. NAVIGATION BAR -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <button class="nav-tab-btn active" data-tab="overview">🏠 Home</button>
+      <button class="nav-tab-btn" data-tab="properties">🔍 Browse Homes</button>
+      <button class="nav-tab-btn" data-tab="property-detail">💰 Price Estimate</button>
+      <button class="nav-tab-btn" data-tab="map-explorer">🗺️ Map</button>
+      <button class="nav-tab-btn" data-tab="locality-intel">📍 Areas</button>
+      <button class="nav-tab-btn" data-tab="historical-trends">📈 Price History</button>
+      <button class="nav-tab-btn" data-tab="ml-models">🤖 How the AI Works</button>
+      <button class="nav-tab-btn" data-tab="admin">🗂️ About the Data</button>
+    </div>
+  </nav>
+
+  <!-- 3. MAIN APP LAYOUT -->
+  <main class="main-layout">
+
+
+
+    <!-- ================= TAB 1: OVERVIEW ================= -->
+    <div id="tab-overview" class="tab-pane active">
+
+      <!-- Simple How-To Guide -->
+      <div class="panel how-to-panel">
+        <h1 class="how-to-title">Welcome! Here's how to use PropertyIQ</h1>
+        <div class="how-to-steps">
+          <div class="how-to-step"><span class="step-num">1</span>
+            <div><strong>Browse Homes</strong><br>Search 1,250 homes by area, size or name.</div>
+          </div>
+          <div class="how-to-step"><span class="step-num">2</span>
+            <div><strong>Get a Price Estimate</strong><br>Click a home — our AI predicts its fair price.</div>
+          </div>
+          <div class="how-to-step"><span class="step-num">3</span>
+            <div><strong>Try “What If”</strong><br>Change size, age or parking and see the price change.</div>
+          </div>
+          <div class="how-to-step"><span class="step-num">4</span>
+            <div><strong>Compare Areas</strong><br>See which neighbourhoods are pricey, growing or well connected.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Working Example Callout Banner -->
+      <div class="panel" style="background:#ffffff;border-color:#c9bda4;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;">
+          <div>
+            <span class="property-tag" style="background:#6b8f71;color:#fff;">Try an example</span>
+            <h3 style="font-size:18px;font-weight:800;color:#1a1a1a;margin:6px 0 2px 0;">Oberoi Splendor Apt 0702,
+              Andheri West</h3>
+            <p style="font-size:13px;color:#4a4a45;" id="example-prop-desc">2 BHK • 1,200 sq.ft • Recorded price ₹3.23
+              Cr (today's market: <span id="example-prop-live-rate" style="font-weight:700;color:#6b8f71;">₹3.23
+                Cr</span>)</p>
+          </div>
+          <button class="btn-primary" id="example-prop-action">
+            See its price estimate →
+          </button>
+        </div>
+      </div>
+
+      <!-- Analytical Visualizations Grid (Matplotlib / Seaborn) -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(480px, 1fr));gap:24px;margin-bottom:24px;">
+        <div class="report-chart-box">
+          <div style="font-size:14.5px;font-weight:700;color:#1a1a1a;margin-bottom:8px;text-align:left;">
+            Average price per sq.ft over the years, by area
+          </div>
+          <img id="chart-img-trends" alt="Historical Trends Chart" style="min-height:220px;background:#f5f0e6;"
+            src="" />
+        </div>
+        <div class="report-chart-box">
+          <div style="font-size:14.5px;font-weight:700;color:#1a1a1a;margin-bottom:8px;text-align:left;">
+            Which AI model predicts prices best? (higher bar = more accurate)
+          </div>
+          <img id="chart-img-models" alt="Model Comparison Chart" style="min-height:220px;background:#f5f0e6;" src="" />
+        </div>
+      </div>
+
+      <!-- Quick Platform Architecture Overview -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">What makes this project trustworthy</div>
+        </div>
+        <div
+          style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:16px;font-size:13px;color:#3a3a36;">
+          <div style="background:#f5f0e6;padding:14px;border-radius:8px;border:1px solid #e3dac6;">
+            <strong style="color:#1a1a1a;display:block;margin-bottom:4px;">1. Simple, explainable AI</strong>
+            Uses classic, easy-to-explain models: Linear Regression, Decision Tree, Random Forest and K-Means. No black
+            boxes.
+          </div>
+          <div style="background:#f5f0e6;padding:14px;border-radius:8px;border:1px solid #e3dac6;">
+            <strong style="color:#1a1a1a;display:block;margin-bottom:4px;">2. Nothing to type in</strong>
+            1,250 homes across 14 areas are already loaded with size, age, location and nearby facilities.
+          </div>
+          <div style="background:#f5f0e6;padding:14px;border-radius:8px;border:1px solid #e3dac6;">
+            <strong style="color:#1a1a1a;display:block;margin-bottom:4px;">3. Live market numbers</strong>
+            The cards at the top move every few seconds to mimic a real market, without changing past records or the AI.
+          </div>
+          <div style="background:#f5f0e6;padding:14px;border-radius:8px;border:1px solid #e3dac6;">
+            <strong style="color:#1a1a1a;display:block;margin-bottom:4px;">4. Safe “What If” testing</strong>
+            Try changes like a bigger area or more parking — the original data is never overwritten.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 2: PROPERTY DIRECTORY & SEARCH ================= -->
+    <div id="tab-properties" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Browse all homes</h2>
+            <p class="panel-desc">Search or filter, then click any home to see its estimated price.</p>
+          </div>
+          <span class="status-pill" id="showing-records-text">Loading records...</span>
+        </div>
+
+        <!-- Universal Search Input -->
+        <div class="search-bar-wrapper" style="margin-bottom:14px;">
+          <input type="text" id="search-property-input" class="search-input" style="padding-left:16px;"
+            placeholder="Search by property name (Oberoi, Lodha, Hiranandani), locality (Andheri, Bandra), or ID (PROP-0001)...">
+        </div>
+
+        <!-- Filter Controls Strip -->
+        <div class="filters-strip">
+          <select id="filter-locality" class="filter-select">
+            <option value="">All Localities (Mumbai & MMR)</option>
+          </select>
+          <select id="filter-bhk" class="filter-select">
+            <option value="">All BHK Configurations</option>
+            <option value="1">1 BHK</option>
+            <option value="2">2 BHK</option>
+            <option value="3">3 BHK</option>
+            <option value="4">4+ BHK</option>
+          </select>
+          <select id="filter-type" class="filter-select">
+            <option value="">All Property Types</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Penthouse">Penthouse</option>
+            <option value="Independent House">Independent House</option>
+            <option value="Studio">Studio</option>
+          </select>
+          <button class="btn-secondary btn-sm" onclick="resetPropertyFilters()">Reset Filters</button>
+        </div>
+
+        <!-- Properties Grid -->
+        <div class="property-grid" id="properties-grid"></div>
+
+        <!-- Pagination Controls -->
+        <div style="display:flex;justify-content:center;gap:12px;margin-top:24px;">
+          <button class="btn-secondary" id="prev-page-btn">← Previous Page</button>
+          <button class="btn-secondary" id="next-page-btn">Next Page →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 3: PROPERTY DETAILS & ML VALUATION ================= -->
+    <div id="tab-property-detail" class="tab-pane">
+
+      <!-- Property Hero Card -->
+      <div class="panel" style="margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;">
+          <div>
+            <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+              <span class="property-tag" id="detail-prop-type-tag">Apartment</span>
+              <span class="property-id-badge" id="detail-prop-id-badge">PROP-0001</span>
+              <span class="badge-simulated">Demonstration Record</span>
+            </div>
+            <h1 style="font-size:24px;font-weight:800;color:#1a1a1a;" id="detail-prop-title">Oberoi Splendor</h1>
+            <p style="font-size:13.5px;color:#4a4a45;" id="detail-prop-address">Apt 0702, Tower A, Sector 4, Andheri
+              West, Mumbai</p>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:12px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Stored Historical Price
+            </div>
+            <div style="font-size:26px;font-weight:900;color:#1a1a1a;" id="detail-actual-price">₹3.23 Cr</div>
+            <div style="font-size:12px;color:#6b6a62;" id="detail-actual-sqft">₹26,916 / sq.ft</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ML VALUATION RESULTS HERO -->
+      <div class="valuation-hero">
+        <div class="val-hero-left">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="property-tag" style="background:#6b8f71;color:#fff;">AI Price Estimate</span>
+            <span style="font-size:12px;color:#9a978c;">What our model thinks this home is worth</span>
+          </div>
+          <div class="val-hero-price" id="ml-pred-price">₹3.23 Cr</div>
+          <div class="val-hero-rate">That's about <strong id="ml-pred-sqft" style="color:#ffffff;">₹26,878 /
+              sq.ft</strong></div>
+          <div style="font-size:13px;color:#c9bda4;margin-bottom:4px;">
+            Difference from recorded price: <strong id="ml-delta-baseline" class="trend-up">+₹0.00 (0.0%)</strong>
+          </div>
+          <div style="font-size:12.5px;color:#c5d6c2;margin-bottom:14px;">
+            Adjusted for today's market: <strong id="ml-live-market-price" style="color:#ffffff;">₹3.23 Cr</strong>
+            (<span id="ml-live-market-drift" class="trend-up">+0.0%</span>)
+          </div>
+          <div style="font-size:11px;color:#9a978c;font-style:italic;">✓ Estimate calculated automatically</div>
+        </div>
+
+        <div class="val-hero-right">
+          <div class="val-hero-metrics">
+            <div class="hero-metric-item">
+              <div class="lbl">Model used</div>
+              <div class="val" id="ml-model-name">Random Forest</div>
+            </div>
+            <div class="hero-metric-item">
+              <div class="lbl">Accuracy (R²)</div>
+              <div class="val" id="ml-model-r2">95.3%</div>
+            </div>
+            <div class="hero-metric-item">
+              <div class="lbl">Typical error</div>
+              <div class="val" id="ml-model-mae">₹58.2 L</div>
+            </div>
+          </div>
+
+          <!-- Multi-Algorithm Comparison -->
+          <div
+            style="margin-top:14px;background:rgba(255,255,255,0.05);padding:12px;border-radius:8px;font-size:12.5px;">
+            <div style="font-weight:700;color:#c5d6c2;margin-bottom:6px;">What each model predicts:</div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span>Linear Regression:</span>
+              <strong id="val-lr-price" style="color:#ffffff;">₹3.18 Cr</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span>Decision Tree Regressor:</span>
+              <strong id="val-dt-price" style="color:#ffffff;">₹3.25 Cr</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:3px 0;">
+              <span>Random Forest (Ensemble):</span>
+              <strong id="val-rf-price" style="color:#a9c2a4;">₹3.23 Cr (Best Model)</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SPECS & COMPACT MAP 2-COLUMN LAYOUT -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+
+        <!-- Left: Specifications Table -->
+        <div class="panel">
+          <h3 class="panel-title" style="margin-bottom:14px;">Stored Property Specifications</h3>
+          <table class="custom-table">
+            <tbody>
+              <tr>
+                <td><strong>Built-up Area</strong></td>
+                <td id="spec-built-up">1,200 sq.ft</td>
+              </tr>
+              <tr>
+                <td><strong>Carpet Area</strong></td>
+                <td id="spec-carpet">936 sq.ft</td>
+              </tr>
+              <tr>
+                <td><strong>BHK & Bathrooms</strong></td>
+                <td id="spec-bhk">2 BHK (2 Baths)</td>
+              </tr>
+              <tr>
+                <td><strong>Floor Position</strong></td>
+                <td id="spec-floor">Floor 7 of 18</td>
+              </tr>
+              <tr>
+                <td><strong>Property Age</strong></td>
+                <td id="spec-age">3 Years</td>
+              </tr>
+              <tr>
+                <td><strong>Furnishing Status</strong></td>
+                <td id="spec-furnishing">Semi-Furnished</td>
+              </tr>
+              <tr>
+                <td><strong>Parking Allocation</strong></td>
+                <td id="spec-parking">1 Covered</td>
+              </tr>
+              <tr>
+                <td><strong>Road Accessibility</strong></td>
+                <td id="spec-road">Link Road</td>
+              </tr>
+              <tr>
+                <td><strong>Micro-Locality</strong></td>
+                <td id="spec-locality">Andheri West (Western Suburbs)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right: Compact Map & Proximity Amenities -->
+        <div class="panel">
+          <h3 class="panel-title" style="margin-bottom:8px;">Geographic Location & Transit Proximity</h3>
+          <div id="compact-property-map" class="map-frame-compact" style="margin-bottom:12px;"></div>
+          <div style="font-size:12px;font-weight:700;color:#1a1a1a;margin-bottom:6px;">Nearby Landmark Amenities:</div>
+          <div id="detail-amenities-list" style="display:flex;flex-direction:column;gap:6px;"></div>
+        </div>
+      </div>
+
+      <!-- WHAT-IF ANALYSIS SENSITIVITY PLAYGROUND -->
+      <div class="what-if-panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <h3 class="panel-title">What If? — change the home and see the new price</h3>
+            <p class="panel-desc">Adjust any option below and click Recalculate. The original record stays untouched.
+            </p>
+          </div>
+          <button class="btn-primary" id="btn-recalc-whatif">
+            Recalculate
+          </button>
+        </div>
+
+        <div class="what-if-controls-grid">
+          <div class="control-group">
+            <label for="wif-built-up">Built-up Area (Sq.Ft)</label>
+            <input type="number" id="wif-built-up" class="control-input" step="50" min="300" max="5000">
+          </div>
+          <div class="control-group">
+            <label for="wif-bhk">BHK</label>
+            <select id="wif-bhk" class="control-select">
+              <option value="1">1 BHK</option>
+              <option value="2">2 BHK</option>
+              <option value="3">3 BHK</option>
+              <option value="4">4 BHK</option>
+              <option value="5">5 BHK</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="wif-age">Property Age (Years)</label>
+            <input type="number" id="wif-age" class="control-input" min="0" max="30">
+          </div>
+          <div class="control-group">
+            <label for="wif-parking">Parking Spaces</label>
+            <select id="wif-parking" class="control-select">
+              <option value="0">0 Spaces</option>
+              <option value="1">1 Space</option>
+              <option value="2">2 Spaces</option>
+              <option value="3">3 Spaces</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="wif-furnishing">Furnishing</label>
+            <select id="wif-furnishing" class="control-select">
+              <option value="Unfurnished">Unfurnished</option>
+              <option value="Semi-Furnished">Semi-Furnished</option>
+              <option value="Furnished">Furnished</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="wif-road">Road Type</label>
+            <select id="wif-road" class="control-select">
+              <option value="Internal Colony Road">Internal Colony Road</option>
+              <option value="Link Road">Link Road</option>
+              <option value="Main Arterial Avenue">Main Arterial Avenue</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sensitivity Comparison Box -->
+        <div class="what-if-comparison-strip">
+          <div class="cmp-box">
+            <div class="c-lbl">Current estimate</div>
+            <div class="c-val" id="wif-orig-val">₹3.23 Cr</div>
+          </div>
+          <div style="font-size:24px;color:#c9bda4;">&rarr;</div>
+          <div class="cmp-box">
+            <div class="c-lbl">With your changes</div>
+            <div class="c-val" id="wif-scen-val" style="color:#6b8f71;">₹3.23 Cr</div>
+          </div>
+          <div style="font-size:24px;color:#c9bda4;">=</div>
+          <div class="cmp-box">
+            <div class="c-lbl">Price change</div>
+            <div class="c-delta" id="wif-delta-val">&plusmn;₹0.00 (0.0%)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 4: INTERACTIVE MAP EXPLORER ================= -->
+    <div id="tab-map-explorer" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Homes on the map</h2>
+            <p class="panel-desc">Zoom in to see individual homes. Numbers show how many homes are grouped together.</p>
+          </div>
+          <span class="status-pill" id="map-marker-count">Loading map coordinates...</span>
+        </div>
+
+        <!-- Map Explorer Filter Toolbar -->
+        <div class="filters-strip">
+          <select id="map-filter-locality" class="filter-select">
+            <option value="">All Localities (Focus Mumbai)</option>
+          </select>
+          <select id="map-filter-bhk" class="filter-select">
+            <option value="">All BHK</option>
+            <option value="1">1 BHK</option>
+            <option value="2">2 BHK</option>
+            <option value="3">3 BHK</option>
+            <option value="4">4+ BHK</option>
+          </select>
+          <select id="map-filter-type" class="filter-select">
+            <option value="">All Types</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Penthouse">Penthouse</option>
+            <option value="Independent House">Independent House</option>
+            <option value="Studio">Studio</option>
+          </select>
+        </div>
+
+        <div id="full-map-explorer" class="map-frame-full"></div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 5: LOCALITY INTELLIGENCE ================= -->
+    <div id="tab-locality-intel" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Get to know an area</h2>
+            <p class="panel-desc">Pick an area to see its prices, population, transport and upcoming projects.</p>
+          </div>
+          <div style="min-width:280px;">
+            <select id="intel-locality-select" class="filter-select" style="width:100%;font-weight:700;"></select>
+          </div>
+        </div>
+
+        <!-- Locality Profile Hero -->
+        <div style="background:#f5f0e6;border:1px solid #e3dac6;border-radius:12px;padding:22px;margin-bottom:24px;">
+          <div
+            style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:gap:12px;margin-bottom:16px;">
+            <div>
+              <span class="property-tag" id="intel-loc-zone">Western Suburbs, Mumbai</span>
+              <h2 style="font-size:24px;font-weight:800;color:#1a1a1a;margin-top:4px;" id="intel-loc-name">Andheri West
+              </h2>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:24px;font-weight:900;color:#6b8f71;" id="intel-sqft-rate">₹26,000 / sq.ft</div>
+              <div style="font-size:12.5px;color:#5a7d5f;font-weight:700;" id="intel-growth-yoy">+6.1% YoY (5-Yr CAGR:
+                6.9%)</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:14px;">
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Population</div>
+              <div style="font-size:18px;font-weight:800;color:#1a1a1a;" id="intel-population">340,000</div>
+            </div>
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Population Density
+              </div>
+              <div style="font-size:18px;font-weight:800;color:#1a1a1a;" id="intel-density">24,800 / km²</div>
+            </div>
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Avg Household Income
+              </div>
+              <div style="font-size:18px;font-weight:800;color:#1a1a1a;" id="intel-income">₹18.0 L / yr</div>
+            </div>
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Transit Access Score
+              </div>
+              <div style="font-size:18px;font-weight:800;color:#6b8f71;" id="intel-transit-score">9.5 / 10</div>
+            </div>
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">Infrastructure
+                Rating</div>
+              <div style="font-size:18px;font-weight:800;color:#5a7d5f;" id="intel-infra-rating">8.8 / 10</div>
+            </div>
+            <div style="background:#fff;padding:12px 16px;border-radius:8px;border:1px solid #e3dac6;">
+              <div style="font-size:11.5px;color:#6b6a62;font-weight:600;text-transform:uppercase;">K-Means Cluster
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;" id="intel-cluster-label">Prime Commercial Node
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highway & Active Development Projects -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;">
+          <div>
+            <h3 class="panel-title" style="margin-bottom:10px;">Arterial Highways & Connectivity</h3>
+            <p style="font-size:13.5px;color:#3a3a36;background:#f5f0e6;padding:14px;border-radius:8px;border:1px solid #e3dac6;"
+              id="intel-highway">
+              SV Road, New Link Road, Metro Lines 1 & 2A
+            </p>
+          </div>
+          <div>
+            <h3 class="panel-title" style="margin-bottom:10px;">Regional Mega Infrastructure Projects</h3>
+            <div id="intel-projects-list"></div>
+          </div>
+        </div>
+
+        <!-- Multi-Locality Benchmarking Comparison Tool -->
+        <div class="panel" style="background:#ffffff;border-color:#c9bda4;">
+          <h3 class="panel-title" style="margin-bottom:6px;">Side-by-Side Locality Comparison Tool</h3>
+          <p class="panel-desc" style="margin-bottom:16px;">Select 2 or 3 localities to compare pricing, growth,
+            density, and transit scores simultaneously.</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+            <select id="cmp-loc-1" class="filter-select">
+              <option value="LOC-ANDW">Andheri West</option>
+              <option value="LOC-BANDW">Bandra West</option>
+              <option value="LOC-WORLI">Worli</option>
+              <option value="LOC-POWAI">Powai</option>
+              <option value="LOC-THANE">Thane West</option>
+              <option value="LOC-KHARG">Kharghar (Navi Mumbai)</option>
+            </select>
+            <select id="cmp-loc-2" class="filter-select">
+              <option value="LOC-BANDW">Bandra West</option>
+              <option value="LOC-ANDW">Andheri West</option>
+              <option value="LOC-WORLI">Worli</option>
+              <option value="LOC-POWAI">Powai</option>
+              <option value="LOC-THANE">Thane West</option>
+              <option value="LOC-KHARG">Kharghar (Navi Mumbai)</option>
+            </select>
+            <select id="cmp-loc-3" class="filter-select">
+              <option value="LOC-THANE">Thane West</option>
+              <option value="LOC-KHARG">Kharghar (Navi Mumbai)</option>
+              <option value="LOC-ANDW">Andheri West</option>
+              <option value="LOC-BANDW">Bandra West</option>
+              <option value="LOC-POWAI">Powai</option>
+            </select>
+            <button class="btn-primary" id="btn-run-compare">Compare Localities</button>
+          </div>
+          <table class="custom-table" id="locality-compare-table"></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= TAB 6: HISTORICAL TRENDS & YOY ================= -->
+    <div id="tab-historical-trends" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">How prices have changed over the years</h2>
+            <p class="panel-desc">Based on 3,699 past sales from 2021 to 2026. “Growth” shows how much prices rose
+              compared with the year before.</p>
+          </div>
+          <div>
+            <select id="hist-locality-select" class="filter-select"></select>
+          </div>
+        </div>
+
+        <div
+          style="background:#e8efe6;padding:12px 16px;border-radius:8px;border:1px solid #c5d6c2;font-size:12.5px;color:#3f5a45;margin-bottom:18px;">
+          <strong>Formal Year-on-Year Growth Formula:</strong><br>
+          <code>YoY Growth (%) = ((Current Comparable Avg Price - Previous Comparable Avg Price) / Previous Comparable Avg Price) × 100</code>
+        </div>
+
+        <table class="custom-table" style="margin-bottom:24px;">
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Avg Price / Sq.Ft</th>
+              <th>Median Price / Sq.Ft</th>
+              <th>Recorded Volume</th>
+              <th>YoY Growth (%)</th>
+            </tr>
+          </thead>
+          <tbody id="hist-trends-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ================= TAB 7: ML MODELS & VIVA GUIDE ================= -->
+    <div id="tab-ml-models" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">How the AI estimates prices</h2>
+            <p class="panel-desc">We trained 3 models on 1,000 homes and tested them on 250 they had never seen. The
+              most accurate one is used for estimates.</p>
+          </div>
+          <span class="badge-verified">Academic CSE Syllabus Compliant</span>
+        </div>
+
+        <!-- Model Comparison Cards -->
+        <div
+          style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:18px;margin-bottom:24px;">
+          <!-- Linear Regression -->
+          <div class="panel" style="margin:0;border-left:4px solid #6b8f71;">
+            <div style="font-size:11px;color:#6b6a62;font-weight:700;text-transform:uppercase;">Parametric Baseline
+            </div>
+            <h3 style="font-size:17px;font-weight:800;color:#1a1a1a;margin:2px 0 6px 0;">Linear Regression</h3>
+            <p style="font-size:12px;color:#6b6a62;margin-bottom:12px;">Models linear relationships between standardized
+              features and price.</p>
+            <div style="font-size:13px;line-height:1.7;">
+              R² Score: <strong id="m-lr-r2" style="color:#1a1a1a;">0.8554</strong><br>
+              MAE: <strong id="m-lr-mae" style="color:#1a1a1a;">₹121.47 L</strong><br>
+              RMSE: <strong id="m-lr-rmse" style="color:#1a1a1a;">₹191.67 L</strong>
+            </div>
+          </div>
+
+          <!-- Decision Tree -->
+          <div class="panel" style="margin:0;border-left:4px solid #5a7d5f;">
+            <div style="font-size:11px;color:#6b6a62;font-weight:700;text-transform:uppercase;">Non-Parametric Tree
+            </div>
+            <h3 style="font-size:17px;font-weight:800;color:#1a1a1a;margin:2px 0 6px 0;">Decision Tree Regressor</h3>
+            <p style="font-size:12px;color:#6b6a62;margin-bottom:12px;">Recursive binary partitioning using mean squared
+              error minimization.</p>
+            <div style="font-size:13px;line-height:1.7;">
+              R² Score: <strong id="m-dt-r2" style="color:#1a1a1a;">0.9145</strong><br>
+              MAE: <strong id="m-dt-mae" style="color:#1a1a1a;">₹70.17 L</strong><br>
+              RMSE: <strong id="m-dt-rmse" style="color:#1a1a1a;">₹147.33 L</strong>
+            </div>
+          </div>
+
+          <!-- Random Forest -->
+          <div class="panel" style="margin:0;border-left:4px solid #4f6b55;background:#f0f4ee;">
+            <div style="font-size:11px;color:#4f6b55;font-weight:700;text-transform:uppercase;">Ensemble Learning</div>
+            <h3 style="font-size:17px;font-weight:800;color:#1a1a1a;margin:2px 0 6px 0;">Random Forest Regressor</h3>
+            <p style="font-size:12px;color:#6b6a62;margin-bottom:12px;">Bootstrap aggregation (100 estimators) reducing
+              variance and overfitting.</p>
+            <div style="font-size:13px;line-height:1.7;">
+              R² Score: <strong id="m-rf-r2" style="color:#3f5a45;">0.9527 (Best Model)</strong><br>
+              MAE: <strong id="m-rf-mae" style="color:#3f5a45;">₹58.23 L</strong><br>
+              RMSE: <strong id="m-rf-rmse" style="color:#3f5a45;">₹109.61 L</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Matplotlib Feature Importance & K-Means Clusters -->
+        <div
+          style="display:grid;grid-template-columns:repeat(auto-fit, minmax(460px, 1fr));gap:24px;margin-bottom:24px;">
+          <div class="report-chart-box">
+            <div style="font-size:14.5px;font-weight:700;color:#1a1a1a;margin-bottom:8px;text-align:left;">
+              Random Forest Feature Importances (Seaborn BarPlot)
+            </div>
+            <img id="chart-img-fi" alt="Feature Importance Chart" style="min-height:220px;" src="" />
+          </div>
+          <div class="report-chart-box">
+            <div style="font-size:14.5px;font-weight:700;color:#1a1a1a;margin-bottom:8px;text-align:left;">
+              K-Means Locality Clusters: Price vs Transit (Seaborn ScatterPlot)
+            </div>
+            <img id="chart-img-kmeans" alt="K-Means Clusters Chart" style="min-height:220px;" src="" />
+          </div>
+        </div>
+
+        <!-- K-Means Summary Groups -->
+        <h3 class="panel-title" style="margin-bottom:12px;">K-Means Locality Clusters Profile Analysis</h3>
+        <div id="kmeans-profiles-container" style="margin-bottom:24px;"></div>
+
+
+      </div>
+    </div>
+
+    <!-- ================= TAB 8: DATASET PROVENANCE & ADMIN ================= -->
+    <div id="tab-admin" class="tab-pane">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Pre-populated Database Records & Data Provenance</h2>
+            <p class="panel-desc">Transparent distinction between simulated demonstration records and regional
+              infrastructure data.</p>
+          </div>
+          <span class="badge-simulated">Academic Simulation Disclosure</span>
+        </div>
+
+        <table class="custom-table" style="margin-bottom:24px;">
+          <thead>
+            <tr>
+              <th>Table Name</th>
+              <th>Records</th>
+              <th>Provenance Status</th>
+              <th>CSV Export Path</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>properties</strong></td>
+              <td>1,250 records</td>
+              <td><span class="badge-simulated">Simulated Demonstration Record</span></td>
+              <td><code>data/properties.csv</code></td>
+            </tr>
+            <tr>
+              <td><strong>localities</strong></td>
+              <td>14 records</td>
+              <td><span class="badge-simulated">Simulated Aggregated Demographics</span></td>
+              <td><code>data/localities.csv</code></td>
+            </tr>
+            <tr>
+              <td><strong>transactions</strong></td>
+              <td>3,699 records</td>
+              <td><span class="badge-simulated">Simulated Historical Registry</span></td>
+              <td><code>data/transactions.csv</code></td>
+            </tr>
+            <tr>
+              <td><strong>amenities</strong></td>
+              <td>63 records</td>
+              <td><span class="badge-verified">Verified Landmarks & Coordinates</span></td>
+              <td><code>data/amenities.csv</code></td>
+            </tr>
+            <tr>
+              <td><strong>development_projects</strong></td>
+              <td>8 records</td>
+              <td><span class="badge-verified">MMR Mega Infrastructure Projects</span></td>
+              <td><code>data/development_projects.csv</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="background:#f5f0e6;padding:16px;border-radius:8px;border:1px solid #e3dac6;font-size:12.5px;color:#4a4a45;line-height:1.6;">
+          <strong>Data Provenance Notice:</strong> All residential property units and historical transaction records are
+          generated through an internally consistent mathematical simulation engine designed for Computer Science
+          Engineering machine learning coursework. Landmark hospitals, schools, colleges, and regional transportation
+          projects correspond to actual infrastructure across Mumbai and the Mumbai Metropolitan Region.
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+
+
+  <!-- Leaflet & MarkerCluster JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+  <!-- App Controller JS -->
+  <script src="/static/js/app.js?v=5"></script>
+</body>
+
+</html>

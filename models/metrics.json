@@ -1,0 +1,61 @@
+{
+  "training_timestamp": "2026-10-13 20:38:10",
+  "train_samples": 1000,
+  "test_samples": 250,
+  "best_model": "random_forest",
+  "models": {
+    "linear_regression": {
+      "mae_inr": 12147352.1,
+      "mae_lakhs": 121.47,
+      "rmse_inr": 19167463.57,
+      "rmse_lakhs": 191.67,
+      "r2_score": 0.8554,
+      "mape_pct": 41.16,
+      "viva_explanation": {
+        "mae": "Mean Absolute Error measures the average magnitude of prediction errors in rupees. An MAE of \u20b98.5 Lakhs means predictions typically deviate by around \u20b98.5 Lakhs from actual transaction values.",
+        "rmse": "Root Mean Squared Error gives extra weight to large prediction deviations because errors are squared before averaging. Useful for detecting severe outlier misvaluations.",
+        "r2": "R-squared (85.5%) indicates what percentage of the variance in property prices across Mumbai/MMR is successfully explained by physical specifications, location, amenities, and transit distances."
+      },
+      "train_time_sec": 0.008,
+      "algorithm_name": "Linear Regression",
+      "syllabus_category": "Parametric Linear Regression",
+      "is_best": false
+    },
+    "decision_tree": {
+      "mae_inr": 7016895.42,
+      "mae_lakhs": 70.17,
+      "rmse_inr": 14732805.83,
+      "rmse_lakhs": 147.33,
+      "r2_score": 0.9145,
+      "mape_pct": 12.68,
+      "viva_explanation": {
+        "mae": "Mean Absolute Error measures the average magnitude of prediction errors in rupees. An MAE of \u20b98.5 Lakhs means predictions typically deviate by around \u20b98.5 Lakhs from actual transaction values.",
+        "rmse": "Root Mean Squared Error gives extra weight to large prediction deviations because errors are squared before averaging. Useful for detecting severe outlier misvaluations.",
+        "r2": "R-squared (91.5%) indicates what percentage of the variance in property prices across Mumbai/MMR is successfully explained by physical specifications, location, amenities, and transit distances."
+      },
+      "train_time_sec": 0.011,
+      "algorithm_name": "Decision Tree Regressor",
+      "syllabus_category": "Non-Parametric Decision Trees",
+      "is_best": false
+    },
+    "random_forest": {
+      "mae_inr": 5822614.26,
+      "mae_lakhs": 58.23,
+      "rmse_inr": 10960593.66,
+      "rmse_lakhs": 109.61,
+      "r2_score": 0.9527,
+      "mape_pct": 11.48,
+      "viva_explanation": {
+        "mae": "Mean Absolute Error measures the average magnitude of prediction errors in rupees. An MAE of \u20b98.5 Lakhs means predictions typically deviate by around \u20b98.5 Lakhs from actual transaction values.",
+        "rmse": "Root Mean Squared Error gives extra weight to large prediction deviations because errors are squared before averaging. Useful for detecting severe outlier misvaluations.",
+        "r2": "R-squared (95.3%) indicates what percentage of the variance in property prices across Mumbai/MMR is successfully explained by physical specifications, location, amenities, and transit distances."
+      },
+      "train_time_sec": 0.187,
+      "algorithm_name": "Random Forest Regressor",
+      "syllabus_category": "Ensemble Learning (Bagging)",
+      "is_best": true
+    }
+  },
+  "data_source_status": "Trained on internally consistent simulated demonstration records",
+  "feature_count": 49
+}

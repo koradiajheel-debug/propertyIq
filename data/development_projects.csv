@@ -1,0 +1,9 @@
+project_id,project_name,project_type,locality_id,locality_name,latitude,longitude,status,announcement_year,expected_completion_year,impact_zone,estimated_budget_cr,data_status
+PRJ-CSTLRD,Mumbai Coastal Road Project (South & North),Coastal Road,LOC-WORLI,Worli,19.021,72.813,Operational Phase 1 / Phase 2 Finishing,2017,2024,Marine Drive to Worli / Kandivali Extension,12721.0,Regional Infrastructure Project
+PRJ-METRO3,Mumbai Metro Line 3 (Aqua Line Underground),Metro Line,LOC-BANDW,Bandra West,19.06,72.835,Operational / Near Completion,2016,2024,Colaba-BKC-SEEPZ-Aarey corridor,37276.0,Regional Infrastructure Project
+PRJ-MTHL,Atal Bihari Vajpayee Sewri-Nhava Sheva Sea Link (MTHL),Freeway/Bridge,LOC-VASHI,Vashi (Navi Mumbai),19.03,73.01,Operational,2018,2024,Sewri to Navi Mumbai Chirle,17843.0,Regional Infrastructure Project
+PRJ-GMLR,Goregaon-Mulund Link Road (GMLR Twin Tunnel),Highway Tunnel,LOC-GORE,Goregaon East,19.171,72.868,Under Construction,2020,2028,Western to Eastern Suburbs Direct Link,6300.0,Regional Infrastructure Project
+PRJ-NMIA,Navi Mumbai International Airport (NMIA),Airport,LOC-KHARG,Kharghar (Navi Mumbai),18.99,73.07,Under Construction / Near Commercial Launch,2018,2025,MMR International Aviation Hub,19646.0,Regional Infrastructure Project
+PRJ-THNBOR,Thane-Borivali Underground Twin Road Tunnel,Highway Tunnel,LOC-THANE,Thane West,19.22,72.96,Under Construction,2021,2028,SGNP Sub-surface 11.8 km Tunnel,16600.0,Regional Infrastructure Project
+PRJ-METRO2A,Mumbai Metro Line 2A & Line 7 (Dahisar-Andheri),Metro Line,LOC-ANDW,Andheri West,19.13,72.83,Operational,2015,2023,Western Express Highway & Link Road corridors,12800.0,Regional Infrastructure Project
+PRJ-POWMET,Mumbai Metro Line 6 (Swami Samarth Nagar - Vikhroli via Powai),Metro Line,LOC-POWAI,Powai,19.12,72.905,Under Construction,2019,2026,JVLR Elevated Transit Corridor,6716.0,Regional Infrastructure Project

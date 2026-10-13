@@ -1,0 +1,34 @@
+# GitHub Actions workflow to build and deploy the Streamlit app as a Docker container
+# This example uses Fly.io as the target host. You can replace the Fly.io commands with
+# Render, Heroku, Azure, etc., by adjusting the steps.
+
+name: Deploy Streamlit App
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v4
+
+      # Install Flyctl (CLI for Fly.io). If you use another provider, replace this step.
+      - name: Install Flyctl
+        run: |
+          curl -L https://fly.io/install.sh | sh
+          echo "PATH=$HOME/.fly/bin:$PATH" >> $GITHUB_ENV
+
+      # Authenticate with Fly.io using a secret token
+      - name: Authenticate Fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl auth login --access-token $FLY_API_TOKEN
+
+      # Deploy the Docker image to Fly.io (creates/updates the app)
+      - name: Deploy to Fly.io
+        env:
+          FLY_APP_NAME: ${{ secrets.FLY_APP_NAME }}
+        run: flyctl deploy --remote-only --app $FLY_APP_NAME

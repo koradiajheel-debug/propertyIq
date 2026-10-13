@@ -1,0 +1,64 @@
+amenity_id,name,category,locality_id,locality_name,latitude,longitude,rating,data_status
+AMN-0001,Lilavati Hospital & Research Centre,Hospital,LOC-BANDW,Bandra West,19.0514,72.8291,4.8,Simulated landmark coordinates
+AMN-0002,Holy Family Hospital,Hospital,LOC-BANDW,Bandra West,19.0573,72.8315,4.6,Simulated landmark coordinates
+AMN-0003,St. Andrew's College & School,School,LOC-BANDW,Bandra West,19.0559,72.8272,4.7,Simulated landmark coordinates
+AMN-0004,Bandra Terminus & Station,Railway Station,LOC-BANDW,Bandra West,19.0617,72.8406,4.4,Simulated landmark coordinates
+AMN-0005,Linking Road Fashion Promenade,Mall,LOC-BANDW,Bandra West,19.0631,72.8339,4.5,Simulated landmark coordinates
+AMN-0006,Jogger's Park & Carter Road Promenade,Park,LOC-BANDW,Bandra West,19.0674,72.8228,4.9,Simulated landmark coordinates
+AMN-0007,Podar Hospital Worli,Hospital,LOC-WORLI,Worli,19.0093,72.8164,4.5,Simulated landmark coordinates
+AMN-0008,Aditya Birla Memorial High School,School,LOC-WORLI,Worli,19.0145,72.822,4.6,Simulated landmark coordinates
+AMN-0009,Worli Metro Station (Line 3),Metro Station,LOC-WORLI,Worli,19.0185,72.819,4.7,Simulated landmark coordinates
+AMN-0010,High Street Phoenix & Palladium,Mall,LOC-WORLI,Worli,19.0063,72.8242,4.9,Simulated landmark coordinates
+AMN-0011,Worli Sea Face Promenade,Park,LOC-WORLI,Worli,19.022,72.814,4.8,Simulated landmark coordinates
+AMN-0012,Shushrusha Hospital,Hospital,LOC-DADRW,Dadar West,19.0261,72.8398,4.5,Simulated landmark coordinates
+AMN-0013,Balmohan Vidyamandir,School,LOC-DADRW,Dadar West,19.027,72.8385,4.7,Simulated landmark coordinates
+AMN-0014,Dadar Central & Western Junction,Railway Station,LOC-DADRW,Dadar West,19.018,72.8425,4.6,Simulated landmark coordinates
+AMN-0015,Shivaji Park Olympic Ground,Park,LOC-DADRW,Dadar West,19.0272,72.838,4.9,Simulated landmark coordinates
+AMN-0016,Ranade Road & Plaza Market,Mall,LOC-DADRW,Dadar West,19.021,72.842,4.4,Simulated landmark coordinates
+AMN-0017,Dr. L. H. Hiranandani Hospital,Hospital,LOC-POWAI,Powai,19.1192,72.9125,4.8,Simulated landmark coordinates
+AMN-0018,IIT Bombay Campus,School,LOC-POWAI,Powai,19.1334,72.9133,4.9,Simulated landmark coordinates
+AMN-0019,Powai Plaza & Galleria Mall,Mall,LOC-POWAI,Powai,19.118,72.9095,4.6,Simulated landmark coordinates
+AMN-0020,Powai Lakefront & Forest Garden,Park,LOC-POWAI,Powai,19.1245,72.904,4.7,Simulated landmark coordinates
+AMN-0021,Kanjurmarg Station Transit Hub,Railway Station,LOC-POWAI,Powai,19.131,72.928,4.3,Simulated landmark coordinates
+AMN-0022,Kokilaben Dhirubhai Ambani Hospital,Hospital,LOC-ANDW,Andheri West,19.1312,72.8251,4.9,Simulated landmark coordinates
+AMN-0023,Bhavan's College & School,School,LOC-ANDW,Andheri West,19.1235,72.836,4.7,Simulated landmark coordinates
+AMN-0024,D.N. Nagar Metro Interchange (Lines 1 & 2A),Metro Station,LOC-ANDW,Andheri West,19.1258,72.8318,4.8,Simulated landmark coordinates
+AMN-0025,Andheri West Railway Junction,Railway Station,LOC-ANDW,Andheri West,19.1197,72.8464,4.5,Simulated landmark coordinates
+AMN-0026,Infinity Mall Andheri,Mall,LOC-ANDW,Andheri West,19.1415,72.8302,4.7,Simulated landmark coordinates
+AMN-0027,Lifeline Medicare Hospital,Hospital,LOC-GORE,Goregaon East,19.165,72.852,4.4,Simulated landmark coordinates
+AMN-0028,Oberoi International School,School,LOC-GORE,Goregaon East,19.1725,72.864,4.9,Simulated landmark coordinates
+AMN-0029,Aarey Metro Station (Line 7),Metro Station,LOC-GORE,Goregaon East,19.1645,72.859,4.6,Simulated landmark coordinates
+AMN-0030,Oberoi Mall Goregaon,Mall,LOC-GORE,Goregaon East,19.1738,72.8601,4.8,Simulated landmark coordinates
+AMN-0031,Sanjay Gandhi National Park Western Gate,Park,LOC-GORE,Goregaon East,19.176,72.871,4.8,Simulated landmark coordinates
+AMN-0032,SevenHills Hospital,Hospital,LOC-ANDE,Andheri East,19.1189,72.8805,4.6,Simulated landmark coordinates
+AMN-0033,Bombay Cambridge Gurukul School,School,LOC-ANDE,Andheri East,19.122,72.865,4.5,Simulated landmark coordinates
+AMN-0034,Western Express Highway Metro (Line 1),Metro Station,LOC-ANDE,Andheri East,19.116,72.856,4.6,Simulated landmark coordinates
+AMN-0035,MIDC Central Commercial Square,Mall,LOC-ANDE,Andheri East,19.119,72.874,4.3,Simulated landmark coordinates
+AMN-0036,Zenith Hospital Malad,Hospital,LOC-MALAD,Malad West,19.182,72.846,4.4,Simulated landmark coordinates
+AMN-0037,Ryan International School,School,LOC-MALAD,Malad West,19.189,72.841,4.6,Simulated landmark coordinates
+AMN-0038,Malad Metro Station (Line 2A),Metro Station,LOC-MALAD,Malad West,19.187,72.842,4.7,Simulated landmark coordinates
+AMN-0039,Inorbit Mall Malad,Mall,LOC-MALAD,Malad West,19.1735,72.8355,4.8,Simulated landmark coordinates
+AMN-0040,Apex Multispeciality Hospital,Hospital,LOC-BORIW,Borivali West,19.228,72.854,4.5,Simulated landmark coordinates
+AMN-0041,Don Bosco High School Borivali,School,LOC-BORIW,Borivali West,19.234,72.851,4.8,Simulated landmark coordinates
+AMN-0042,Borivali West Metro Station (Line 2A),Metro Station,LOC-BORIW,Borivali West,19.229,72.853,4.7,Simulated landmark coordinates
+AMN-0043,Borivali Terminal Junction,Railway Station,LOC-BORIW,Borivali West,19.2295,72.858,4.6,Simulated landmark coordinates
+AMN-0044,DNA Multispeciality Hospital,Hospital,LOC-KAND,Kandivali East,19.201,72.862,4.3,Simulated landmark coordinates
+AMN-0045,Cambridge School Kandivali,School,LOC-KAND,Kandivali East,19.209,72.871,4.6,Simulated landmark coordinates
+AMN-0046,Akurli Metro Station (Line 7),Metro Station,LOC-KAND,Kandivali East,19.206,72.864,4.6,Simulated landmark coordinates
+AMN-0047,Growel's 101 Mall,Mall,LOC-KAND,Kandivali East,19.204,72.861,4.7,Simulated landmark coordinates
+AMN-0048,Kohinoor Hospital Kurla,Hospital,LOC-KURLA,Kurla West,19.068,72.887,4.4,Simulated landmark coordinates
+AMN-0049,Holy Cross High School,School,LOC-KURLA,Kurla West,19.071,72.879,4.5,Simulated landmark coordinates
+AMN-0050,Kurla Central Railway Junction,Railway Station,LOC-KURLA,Kurla West,19.0655,72.8795,4.4,Simulated landmark coordinates
+AMN-0051,Phoenix Marketcity Mall Kurla,Mall,LOC-KURLA,Kurla West,19.0863,72.889,4.8,Simulated landmark coordinates
+AMN-0052,Fortis Hiranandani Hospital Vashi,Hospital,LOC-VASHI,Vashi (Navi Mumbai),19.079,73.003,4.7,Simulated landmark coordinates
+AMN-0053,Father Agnel Multipurpose School,School,LOC-VASHI,Vashi (Navi Mumbai),19.074,72.992,4.8,Simulated landmark coordinates
+AMN-0054,Vashi Harbour Railway Station,Railway Station,LOC-VASHI,Vashi (Navi Mumbai),19.0645,72.996,4.6,Simulated landmark coordinates
+AMN-0055,Inorbit Mall Vashi,Mall,LOC-VASHI,Vashi (Navi Mumbai),19.066,72.998,4.7,Simulated landmark coordinates
+AMN-0056,Jupiter Hospital Thane,Hospital,LOC-THANE,Thane West,19.207,72.973,4.8,Simulated landmark coordinates
+AMN-0057,Smt. Sunitidevi Singhania School,School,LOC-THANE,Thane West,19.214,72.976,4.9,Simulated landmark coordinates
+AMN-0058,Thane Railway Junction,Railway Station,LOC-THANE,Thane West,19.186,72.976,4.6,Simulated landmark coordinates
+AMN-0059,Viviana Mall Thane,Mall,LOC-THANE,Thane West,19.209,72.9715,4.9,Simulated landmark coordinates
+AMN-0060,Tata Memorial Hospital ACTREC,Hospital,LOC-KHARG,Kharghar (Navi Mumbai),19.035,73.072,4.9,Simulated landmark coordinates
+AMN-0061,Apeejay School Kharghar,School,LOC-KHARG,Kharghar (Navi Mumbai),19.043,73.064,4.7,Simulated landmark coordinates
+AMN-0062,Kharghar Metro Station (Navi Mumbai Line 1),Metro Station,LOC-KHARG,Kharghar (Navi Mumbai),19.049,73.068,4.7,Simulated landmark coordinates
+AMN-0063,Kharghar Valley Golf Course & Central Park,Park,LOC-KHARG,Kharghar (Navi Mumbai),19.058,73.075,4.9,Simulated landmark coordinates

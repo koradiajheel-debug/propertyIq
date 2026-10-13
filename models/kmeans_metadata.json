@@ -1,0 +1,73 @@
+{
+  "n_clusters": 4,
+  "inertia": 18.82,
+  "silhouette_score": 0.2988,
+  "cluster_profiles": {
+    "0": {
+      "cluster_id": 0,
+      "label": "Established Suburban Family Residential",
+      "locality_count": 5,
+      "localities": [
+        "Powai",
+        "Goregaon East",
+        "Vashi (Navi Mumbai)",
+        "Thane West",
+        "Kharghar (Navi Mumbai)"
+      ],
+      "mean_price_sqft": 22593.24,
+      "mean_transit_score": 8.5,
+      "mean_cagr_5yr": 8.18,
+      "mean_density": 15780.0
+    },
+    "1": {
+      "cluster_id": 1,
+      "label": "Prime High-Density Commercial & Tech Corridors",
+      "locality_count": 4,
+      "localities": [
+        "Dadar West",
+        "Andheri West",
+        "Andheri East",
+        "Kurla West"
+      ],
+      "mean_price_sqft": 30380.25,
+      "mean_transit_score": 9.57,
+      "mean_cagr_5yr": 6.35,
+      "mean_density": 27450.0
+    },
+    "2": {
+      "cluster_id": 2,
+      "label": "Ultra-Premium Waterfront & Heritage Hubs",
+      "locality_count": 2,
+      "localities": [
+        "Bandra West",
+        "Worli"
+      ],
+      "mean_price_sqft": 62173.78,
+      "mean_transit_score": 9.0,
+      "mean_cagr_5yr": 7.65,
+      "mean_density": 22250.0
+    },
+    "3": {
+      "cluster_id": 3,
+      "label": "Established Suburban Family Residential",
+      "locality_count": 3,
+      "localities": [
+        "Borivali West",
+        "Malad West",
+        "Kandivali East"
+      ],
+      "mean_price_sqft": 24363.65,
+      "mean_transit_score": 8.8,
+      "mean_cagr_5yr": 6.6,
+      "mean_density": 22200.0
+    }
+  },
+  "features_used": [
+    "avg_price_sqft",
+    "population_density",
+    "historical_cagr_5yr",
+    "transit_accessibility_score",
+    "infrastructure_rating"
+  ],
+  "viva_explanation": "K-Means partitions localities into k groups by minimizing intra-cluster inertia (sum of squared Euclidean distances to cluster centroids). Feature standardization via StandardScaler is mandatory because price per sq.ft (~\u20b950,000) and transit score (0-10) have vastly different scales."
+}
